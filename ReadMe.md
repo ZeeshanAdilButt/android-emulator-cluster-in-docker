@@ -118,6 +118,7 @@ mkdir -p /opt/android-emulator-cluster-in-docker/danger
 cd /opt/android-emulator-cluster-in-docker/danger
 chmod +x cleanup.sh
 chmod +x restart.sh
+cd .. 
 ```
 
 ## 📊 System Monitoring Tools
