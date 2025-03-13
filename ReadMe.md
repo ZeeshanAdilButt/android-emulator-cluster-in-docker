@@ -119,6 +119,7 @@ cd /opt/android-emulator-cluster-in-docker/danger
 chmod +x cleanup.sh
 chmod +x restart.sh
 cd .. 
+cd .. 
 ```
 
 ## 📊 System Monitoring Tools
