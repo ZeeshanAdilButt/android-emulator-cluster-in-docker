@@ -184,6 +184,19 @@ cd /opt/android-emulator-cluster-in-docker/danger
 docker ps
 ```
 
+### To check if you can connect to all the devices running using adb
+
+```bash
+apt install adb
+apt install google-android-platform-tools-installer
+
+clear
+
+for i in {5555..5594}; do adb connect localhost:$i; done
+
+adb devices
+```
+
 ### Accessing Container Logs
 ```bash
 docker logs [container_id]
