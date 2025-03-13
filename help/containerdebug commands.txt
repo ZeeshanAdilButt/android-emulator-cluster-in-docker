@@ -1,0 +1,235 @@
+for i in {5555..5594}; do adb connect localhost:$i; done
+
+adb devices
+
+docker exec -it android-emulator sh
+ls
+
+docker exec -it android-emulator cat /logs/device.stdout.log
+
+docker exec -it android-emulator ls -l /dev/kvm
+
+docker exec -it android-emulator rm -rf /home/androidusr/emulator/*.lock
+
+
+ls /home/androidusr/emulator/avd
+
+find /home/androidusr -name android-sdk
+which emulator
+
+rm -rf /home/androidusr/emulator/*.lock
+/home/androidusr/docker-android/mixins/scripts/run.sh
+
+
+
+#########################################
+
+note:
+
+find / -name android
+
+find /home/androidusr -name android-sdk
+
+which emulator
+
+# Check where the SDK tools might be
+ls -l /usr/lib/android-sdk
+
+# Check the current environment variables
+env | grep ANDROID
+
+# Look at the emulator command details
+ls -l /usr/bin/emulator
+
+ls -l /home/androidusr/docker-android/mixins/configs/devices/
+
+----------------------------------------------------------------
+
+show all in container
+
+docker logs android_emulator
+
+docker exec -it android_emulator sh
+
+# Navigate to various directories and list files:
+ls
+ls -l /home/androidusr/.android/avd
+ls -l /home/androidusr/emulator
+cd ..
+ls -a
+cd androidusr
+ls -a
+cd .android
+ls -a
+cd avd
+ls -a
+cd ..
+cd emulator
+ls
+cd ..
+ls
+cd .android
+ls
+cd ..
+cd emulator
+ls -a
+cd ..
+
+
+# Commands within the logs directory to display log files:
+cd logs
+ls -a
+cat *.log > combined_logs.txt
+cat combined_logs.txt
+
+
+______________________________________________________________________
+
+
+_________________________________________________
+
+chekc status 
+
+ adb shell getprop sys.boot_completed
+
+adb devices
+
+adb reboot
+
+
+
+__________________________________________________________
+
+
+check avd and emulator configs 
+
+ cat /home/androidusr/.android/avd/nexus_4_9.0.ini
+cat /home/androidusr/.android/avd/nexus_5_9.0.ini
+
+cd /home/androidusr/emulator
+
+cat /home/androidusr/emulator/config.ini
+
+
+# Make sure 'emulator' is on the PATH:
+which emulator
+
+
+# Typically /opt/android/emulator/emulator or similar
+
+
+avdmanager list avd
+
+emulator -list-avds
+
+
+# Try to launch your AVD manually:
+
+
+# Remove any stale lock files
+rm -rf /home/androidusr/emulator/*.lock
+rm -rf /home/androidusr/.android/avd/*.lock
+
+
+
+# Remove lock files
+
+rm -f /home/androidusr/.android/avd/nexus_4_9.0.avd/*.lock
+
+
+rm -rf /home/androidusr/emulator/*.lock
+
+# Remove leftover PID or temporary files (if they exist)
+rm -f /home/androidusr/emulator/*.pid
+
+# Remove snapshots if they exist (depending on how budtmo sets up AVD)
+rm -rf /home/androidusr/.android/avd/*/snapshots/
+rm -rf /home/androidusr/android_emulator_home/snapshots/
+
+/home/androidusr/docker-android/mixins/scripts/run.sh
+
+
+# commands to start emulator
+
+emulator @nexus_4_9.0 -gpu swiftshader_indirect -accel on -verbose
+
+emulator @nexus_5_9.0 -gpu swiftshader_indirect -accel on -verbose
+
+-- emulator @nexus_4_9.0 -gpu swiftshader_indirect -accel off -verbose
+
+ emulator @nexus_4_9.0 -gpu swiftshader_indirect -accel on -verbose
+
+
+_________________________________________________
+
+
+
+A straightforward fix is to rename your emulator folder to match typical Android Studio naming conventions:
+
+In the container shell, do:
+
+
+mv /home/androidusr/emulator /home/androidusr/.android/avd/nexus_4_9.0.avd
+# or rename on your Windows host so that the bind mount ends up with the correct name inside the container
+Then edit the .ini file so:
+
+
+avd.ini.encoding=UTF-8
+path=/home/androidusr/.android/avd/nexus_4_9.0.avd
+target=android-28
+Now the standard layout is:
+
+
+/home/androidusr/.android/avd/
+├── nexus_4_9.0.ini
+└── nexus_4_9.0.avd/
+    ├── config.ini
+    ├── system.img.qcow2
+    ├── userdata-qemu.img
+    └── ...
+This is the typical “AVD in a .avd folder” pattern. The emulator should recognize it with no special changes.
+
+ on your Windows host:
+
+arduino
+Copy
+C:\docker\android\avd
+└── nexus_4_9.0.ini
+└── nexus_4_9.0.avd
+    ├── config.ini
+    ├── system.img.qcow2
+    ├── ...
+
+
+_________________________________________________
+
+logs:
+
+cd logs
+ls -a
+cat *.log > combined_logs.txt
+cat combined_logs.txt
+
+
+
+avd paths:
+
+$ ls -l /home/androidusr/.android/avd
+ls -l /home/androidusr/emulator
+
+-------------------------------------------------------------------------
+
+# inside container
+# path for avd and emulator
+# avd & android path:
+/home/androidusr/.android/avd
+
+
+# emulator path :
+/home/androidusr/emulator
+
+The Android SDK is located at /opt/android (from ANDROID_HOME)
+The device configurations are in /home/androidusr/docker-android/mixins/configs/devices/
+We're using Android 9.0 (from EMULATOR_ANDROID_VERSION)
+
+

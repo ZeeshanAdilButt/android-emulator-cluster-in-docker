@@ -1,0 +1,23 @@
+FROM budtmo/docker-android:emulator_9.0
+
+USER root
+
+# Create X11 directory with correct permissions
+RUN mkdir -p /tmp/.X11-unix && \
+    chmod 1777 /tmp/.X11-unix
+
+# Install any necessary packages
+RUN apt-get update && apt-get install -y \
+    qemu-system-x86 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN groupadd -r kvm || true && \
+    usermod -aG kvm androidusr
+
+COPY run.sh /run.sh
+RUN chmod +x /run.sh
+
+USER androidusr
+
+ENTRYPOINT ["/run.sh"]
