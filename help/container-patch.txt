@@ -1,0 +1,37 @@
+
+cd /opt/android-emulator-cluster-in-docker
+git fetch
+git stash
+git pull
+
+sudo cp -a /opt/android-emulator-cluster-in-docker/docker-etc-backup/* "$(docker inspect --format '{{ .GraphDriver.Data.UpperDir }}' device-36-android-cluster)/etc/"
+docker restart device-36-android-cluster
+
+
+docker exec -it  device-2-android-cluster sh
+
+cd "$(docker inspect --format '{{ .GraphDriver.Data.UpperDir }}' device-3-android-cluster)"
+
+docker restart device-6-android-cluster
+docker restart device-7-android-cluster
+docker restart device-8-android-cluster
+docker restart device-10-android-cluster
+
+
+
+sudo cp -a /etc/docker-etc-backup/* "$(docker inspect --format '{{ .GraphDriver.Data.UpperDir }}' device-7-android-cluster)/etc/"
+sudo cp -a /etc/docker-etc-backup/* "$(docker inspect --format '{{ .GraphDriver.Data.UpperDir }}' device-8-android-cluster)/etc/"
+sudo cp -a /etc/docker-etc-backup/* "$(docker inspect --format '{{ .GraphDriver.Data.UpperDir }}' device-9-android-cluster)/etc/"
+sudo cp -a /etc/docker-etc-backup/* "$(docker inspect --format '{{ .GraphDriver.Data.UpperDir }}' device-10-android-cluster)/etc/"
+sudo cp -a /etc/docker-etc-backup "$(docker inspect --format '{{ .GraphDriver.Data.UpperDir }}' device-3-android-cluster)/etc/"
+
+
+
+docker inspect --format '{{ .GraphDriver.Data.UpperDir }}' device-0-android-cluster
+
+docker inspect --format '{{ .GraphDriver.Data.UpperDir }}' device-2-android-cluster
+
+
+echo "androidusr:x:1000:1000:android user:/home/androidusr:/bin/bash" | passwd
+
+androidusr:x:1000:1000:android user:/home/androidusr:/bin/bash
