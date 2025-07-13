@@ -14,6 +14,30 @@ if [ ! -f /etc/passwd ] || [ ! -s /etc/passwd ] || ! grep -q "^androidusr:" /etc
   echo "androidusr:x:1300:1301:Android User:/home/androidusr:/bin/bash" >> /etc/passwd
 fi
 
+# Block Instagram and Facebook CDN domains
+echo "Blocking Instagram and Facebook CDN domains..."
+cat >> /etc/hosts << EOF
+127.0.0.1 instagram.com
+127.0.0.1 www.instagram.com
+127.0.0.1 scontent.cdninstagram.com
+127.0.0.1 scontent-lga3-1.cdninstagram.com
+127.0.0.1 scontent-lga3-2.cdninstagram.com
+127.0.0.1 instagram.fna.fbcdn.net
+127.0.0.1 scontent.xx.fbcdn.net
+127.0.0.1 scontent-lga3-1.xx.fbcdn.net
+127.0.0.1 scontent-lga3-2.xx.fbcdn.net
+127.0.0.1 facebook.com
+127.0.0.1 www.facebook.com
+127.0.0.1 scontent.facebook.com
+127.0.0.1 static.xx.fbcdn.net
+127.0.0.1 external.xx.fbcdn.net
+127.0.0.1 video.xx.fbcdn.net
+127.0.0.1 fbcdn.net
+127.0.0.1 *.fbcdn.net
+127.0.0.1 *.cdninstagram.com
+127.0.0.1 *.instagram.fna.fbcdn.net
+EOF
+
 # Clean up stale display lock/socket
 rm -f /tmp/.X0-lock /tmp/.X11-unix/X0
 
