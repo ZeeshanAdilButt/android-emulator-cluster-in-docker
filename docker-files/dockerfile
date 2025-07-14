@@ -19,6 +19,9 @@ RUN groupadd -r kvm || true && \
 COPY run.sh /run.sh
 RUN chmod +x /run.sh
 
+# Copy docker-etc-backup directory into the container
+COPY ../docker-etc-backup /docker-etc-backup
+
 USER androidusr
 
 ENTRYPOINT ["/run.sh"]
